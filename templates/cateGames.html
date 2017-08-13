@@ -1,0 +1,33 @@
+{% extends "main.html" %}
+{% block head %}
+    {{ super() }}
+    <title>{{ category.name }} Games</title>
+{% endblock %}
+
+{% block content %}
+    {{ super() }}
+
+    <div class="items">
+        <h2>{{category.name}} Games</h2>
+
+        <div class="item_list">
+            <ul>
+        {% for item in items %}
+                <li>
+                    <a href="{{url_for('showGame', category_id=category.id, game_id=item.id)}}" >
+                        {{ item.name }}
+                    </a>
+                </li>
+        {% endfor %}
+            </ul>
+        </div>
+    </div>
+        {% if user_id %}
+        <div class="add_item_button">
+        <a href="{{ url_for('newGame', category_id=category.id) }}">
+        Add Game
+        </a>
+        {% endif %}
+    </div>
+
+{% endblock %}

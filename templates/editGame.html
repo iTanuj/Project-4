@@ -1,0 +1,37 @@
+{% extends "main.html" %}
+{% block head %}
+    {{ super() }}
+    <title>Editing {{ item.name }}</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="form_area">
+        <h1>Edit {{ item.name }}</h1>
+
+        <div class="edit_form">
+            <form action="{{ url_for('editGame', category_id=category_id, game_id = item.id) }}" enctype="multipart/form-data" method="POST">
+                <label for="name">Name:</label>
+                <br>
+                <input type="text" class="text_entry" name="name" value="{{ item.name }}" />
+                <br><br>
+                <label for="description">Description:</label><br>
+                <textarea class="text_entry" name="description" rows="15" col="1200" style="width: 650px; height: 300px;">{{ item.description }}</textarea>
+                <input type="hidden" name="state" value="{{STATE}}" />
+                <br>
+                <br>
+
+                <button type="submit" class="submit_button" type="submit">
+                    Submit
+                </button>
+                <br>
+                <br>
+            </form>
+            <a href="{{ url_for('showGame', category_id=category_id, game_id=item.id) }}" >
+                <button class="cancel_button">
+                    Cancel
+                </button>
+            </a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "main.html" %}
+{% block head %}
+    {{ super() }}
+    <title>{{ item.name }}</title>
+{% endblock %}
+
+{% block content %}
+    {{ super() }}
+
+    <div class="items">
+        <h2>
+            {{ item.name }}
+        </h2>
+            {% if item.user_id == user_id %}
+                <a href="/category/{{item.category_id}}/games/{{item.id}}/edit">Edit</a>
+                <br>
+                <a href="/category/{{item.category_id}}/games/{{item.id}}/delete">Delete</a>
+            {% endif %}
+            <ul>
+                <li>
+                    {{ item.description }}
+                </li>
+            </ul>
+        </div>
+        {% if user_id %}
+        <div class="add_item_button">
+        <a href="{{ url_for('newGame', category_id=item.category_id) }}">
+            Add Game
+        </a>
+        {% endif %}
+    </div>
+
+{% endblock %}

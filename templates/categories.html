@@ -1,0 +1,25 @@
+{% extends "main.html" %}
+{% block head %}
+  {{ super() }}
+  <title>Recent Games</title>
+{% endblock %}
+
+{% block content %}
+  {{ super() }}
+  <div class="items">
+
+		<h2>Recently Added Games</h2>
+
+		<ul>
+		{% for item in recents %}
+    <li>
+      <a href="{{url_for('showGame', category_id=item.category_id, game_id=item.id)}}" >
+        {{ item.name }}
+      </a>
+    </li>
+		{% endfor %}
+    </ul>
+
+  </div>
+
+{% endblock %}
