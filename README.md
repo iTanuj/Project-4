@@ -34,3 +34,5 @@ Run the Item Catalog server by typing this:
 ```sh
 $ python project.py
 ```
+## Attribution
+Database setup structure from https://github.com/udacity/ud330/tree/master/Lesson4/step2
