@@ -118,11 +118,6 @@ def newGame(category_id):
         return redirect('/category')
     category = session.query(Category).filter_by(id=category_id).one()
     if request.method == 'POST':
-        #if request.form['state'] != login_session['state']:
-        #    response = make_response(json.dumps(
-        #        result.get('Invalid Authorization params')), 401)
-        #    response.headers['Content-Type'] = 'application/json'
-        #    return response
         newItem = Game(
             name=request.form['name'],
             description=request.form['description'], category_id=category_id,
@@ -145,11 +140,6 @@ def editGame(category_id, game_id):
     editedItem = session.query(Game).filter_by(id=game_id).one()
     category = session.query(Category).filter_by(id=category_id).one()
     if request.method == 'POST':
-        #if request.form['state'] != login_session['state']:
-        #    response = make_response(json.dumps(
-        #        result.get('Invalid Authorization params')), 401)
-        #    response.headers['Content-Type'] = 'application/json'
-        #    return response
         if request.form['name']:
             editedItem.name = request.form['name']
         if request.form['description']:
@@ -175,11 +165,6 @@ def deleteGame(category_id, game_id):
     category = session.query(Category).filter_by(id=category_id).one()
     itemToDelete = session.query(Game).filter_by(id=game_id).one()
     if request.method == 'POST':
-        #if request.form['state'] != login_session['state']:
-        #    response = make_response(json.dumps(
-        #        result.get('Invalid Authorization params')), 401)
-        #    response.headers['Content-Type'] = 'application/json'
-        #    return response
         session.delete(itemToDelete)
         session.commit()
         flash('Game Successfully Deleted')
@@ -194,7 +179,7 @@ def deleteGame(category_id, game_id):
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
     """
-    Gathers data from Google Sign In API and places it inside a session variable.
+    Gather data from Google Sign In API and place it inside a session variable.
     """
     # Validate state token
     if request.args.get('state') != login_session['state']:
