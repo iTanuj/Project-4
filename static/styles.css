@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css?family=Saira');
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Saira','Roboto Mono', sans-serif;
+    background-color: #DCDCDC;
+    height: 100%;
+}
+
+header{
+    padding-top: 0.5em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+    padding-bottom: 0.4em;
+    background-color: white;
+    overflow: auto;
+    border-top: 4px solid #4285f4;
+    display: flex;
+    justify-content: space-between;
+}
+
+ul{
+    list-style-type: none;
+    margin:0;
+    padding-top: 0;
+    padding-left:0.5em;
+}
+
+li{
+    padding-top: 0.2em;
+    margin:0;
+    padding-left:0;
+}
+
+h2{
+    font-weight: normal;
+    font-size: 22px;
+    padding-bottom: 0;
+}
+
+.page_title a{
+    text-decoration: none;
+    color: #34a853;
+    float: left;
+    font-size: 1.5em;
+}
+
+#signin_button {
+  background-color: #ea4335;
+  border-radius: 4px;
+  vertical-align: middle;
+  padding: 0 4px 0 4px;
+}
+
+#signin_button > a {
+  top: .25em;
+  position: relative;
+  color: white;
+}
+
+.container {
+    padding-left: 5em;
+    padding-right: 5em;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    color:black;
+}
+
+.categories{
+    padding: 0.5em;
+    margin-top: 0.5em;
+    border-top: 4px solid #ea4335;
+    border-left: 4px solid #fbbc05;
+    border-bottom: 4px solid #34a853;
+    border-radius: 6px;
+    background-color: ghostwhite;
+    float: left;
+}
+
+.categories a {
+    text-decoration: none;
+    color: black;
+    font-size: 0.8em;
+}
+
+.items {
+    padding: 0.5em;
+    margin-top: 0.5em;
+    background-color: white;
+    float:left;
+    width: 70%;
+    border-top: 4px solid #ea4335;
+    border-right: 4px solid #4285f3;
+    border-bottom: 4px solid #34a853;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.items a {
+    text-decoration: none;
+    color: black;
+    font-size: 0.8em;
+}
+
+li > a {
+  color: black;
+}
+
+.add_item_button {
+    padding: 0.5em;
+    margin-top: 0.5em;
+    background-color: #34a853;
+    border-radius: 5px;
+    height: fit-content;
+}
+
+.add_item_button a {
+    text-decoration: none;
+    color: white;
+    font-size: 1em;
+}
+
+.form_area {
+    padding: 0.5em;
+    margin-top: 0.5em;
+    border-top: 4px solid #ea4335;
+    border-right: 4px solid #4285f3;
+    border-bottom: 4px solid #34a853;
+    border-left: 4px solid #fbbc05;
+    border-radius: 6px;
+    background-color: white;
+    float:left;
+
+}
+
+.form_area h2 {
+    font-size: 1.4em;
+}
