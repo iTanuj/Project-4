@@ -11,6 +11,7 @@ from oauth2client.client import FlowExchangeError
 import httplib2
 import json
 import requests
+from functools import wraps
 
 app = Flask(__name__)
 
@@ -27,6 +28,19 @@ Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
+
+# Login Forcer
+def login_required(func):
+    """ Checks if the user is logged in or not """
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        if 'username' in login_session:
+            return func(*args, **kwargs)
+        else:
+            flash("You need to be logged in to do that")
+            return redirect(url_for('showCategories'))
+    return decorated_function
 
 
 # JSON endpoints
@@ -98,11 +112,17 @@ def showGame(category_id, game_id):
 
 # Create a new game
 @app.route('/category/<int:category_id>/games/new/', methods=['GET', 'POST'])
+@login_required
 def newGame(category_id):
     if 'username' not in login_session:
         return redirect('/category')
     category = session.query(Category).filter_by(id=category_id).one()
     if request.method == 'POST':
+        #if request.form['state'] != login_session['state']:
+        #    response = make_response(json.dumps(
+        #        result.get('Invalid Authorization params')), 401)
+        #    response.headers['Content-Type'] = 'application/json'
+        #    return response
         newItem = Game(
             name=request.form['name'],
             description=request.form['description'], category_id=category_id,
@@ -118,12 +138,18 @@ def newGame(category_id):
 # Edit a game
 @app.route('/category/<int:category_id>/games/<int:game_id>/edit',
            methods=['GET', 'POST'])
+@login_required
 def editGame(category_id, game_id):
     if 'username' not in login_session:
         return redirect('/category')
     editedItem = session.query(Game).filter_by(id=game_id).one()
     category = session.query(Category).filter_by(id=category_id).one()
     if request.method == 'POST':
+        #if request.form['state'] != login_session['state']:
+        #    response = make_response(json.dumps(
+        #        result.get('Invalid Authorization params')), 401)
+        #    response.headers['Content-Type'] = 'application/json'
+        #    return response
         if request.form['name']:
             editedItem.name = request.form['name']
         if request.form['description']:
@@ -142,12 +168,18 @@ def editGame(category_id, game_id):
 # Delete a game
 @app.route('/category/<int:category_id>/games/<int:game_id>/delete',
            methods=['GET', 'POST'])
+@login_required
 def deleteGame(category_id, game_id):
     if 'username' not in login_session:
         return redirect('/category')
     category = session.query(Category).filter_by(id=category_id).one()
     itemToDelete = session.query(Game).filter_by(id=game_id).one()
     if request.method == 'POST':
+        #if request.form['state'] != login_session['state']:
+        #    response = make_response(json.dumps(
+        #        result.get('Invalid Authorization params')), 401)
+        #    response.headers['Content-Type'] = 'application/json'
+        #    return response
         session.delete(itemToDelete)
         session.commit()
         flash('Game Successfully Deleted')
@@ -161,6 +193,9 @@ def deleteGame(category_id, game_id):
 # Signing in begins
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
+    """
+    Gathers data from Google Sign In API and places it inside a session variable.
+    """
     # Validate state token
     if request.args.get('state') != login_session['state']:
         response = make_response(json.dumps('Invalid state parameter.'), 401)
