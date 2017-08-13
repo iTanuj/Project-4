@@ -118,6 +118,11 @@ def newGame(category_id):
         return redirect('/category')
     category = session.query(Category).filter_by(id=category_id).one()
     if request.method == 'POST':
+        if request.form['state'] != login_session['state']:
+            response = make_response(json.dumps(
+                result.get('Invalid Authorization params')), 401)
+            response.headers['Content-Type'] = 'application/json'
+            return response
         newItem = Game(
             name=request.form['name'],
             description=request.form['description'], category_id=category_id,
@@ -139,7 +144,15 @@ def editGame(category_id, game_id):
         return redirect('/category')
     editedItem = session.query(Game).filter_by(id=game_id).one()
     category = session.query(Category).filter_by(id=category_id).one()
+    if editedItem.user_id != login_session.get('user_id'):
+        flash("You must be it's creator to do that")
+        return redirect(url_for('showGame', category_id, game_id))
     if request.method == 'POST':
+        if request.form['state'] != login_session['state']:
+            response = make_response(json.dumps(
+                result.get('Invalid Authorization params')), 401)
+            response.headers['Content-Type'] = 'application/json'
+            return response
         if request.form['name']:
             editedItem.name = request.form['name']
         if request.form['description']:
@@ -150,6 +163,7 @@ def editGame(category_id, game_id):
         return redirect(url_for('showGame', category_id=category_id,
                         STATE=login_session['state'], item=editedItem))
     else:
+
         return render_template(
             'editGame.html', category_id=category_id, item=editedItem,
             STATE=login_session['state'])
@@ -164,7 +178,15 @@ def deleteGame(category_id, game_id):
         return redirect('/category')
     category = session.query(Category).filter_by(id=category_id).one()
     itemToDelete = session.query(Game).filter_by(id=game_id).one()
+    if itemToDelete.user_id != login_session.get('user_id'):
+        flash("You must be it's creator to do that")
+        return redirect(url_for('showGame', category_id, game_id))
     if request.method == 'POST':
+        if request.form['state'] != login_session['state']:
+            response = make_response(json.dumps(
+                result.get('Invalid Authorization params')), 401)
+            response.headers['Content-Type'] = 'application/json'
+            return response
         session.delete(itemToDelete)
         session.commit()
         flash('Game Successfully Deleted')
